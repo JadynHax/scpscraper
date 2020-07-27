@@ -222,7 +222,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   Parameters:
     min_skip: The SCP number to start at. Default: 0
     max_skip: The SCP number to end at plus one. Default: 6000
-    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
+    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "\<\|endoftext\|\>" tokens where necessary to divide the dataset for training. Default: False
   """
   # Create/clear the files we need for scraping.
   filelist = []
