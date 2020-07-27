@@ -14,7 +14,7 @@ def get_single_scp(scp_id: str):
   
   # Error handling.
   except Exception as e:
-    print(f'\rWARNING: Failed to access SCP Wiki page for SCP-{scp_id}. Error: {e}', file=sys.stderr)
+    print(f'\nWARNING: Failed to access SCP Wiki page for SCP-{scp_id}. Error: {e}', file=sys.stderr)
     return
 
 def _get_scp_name(scp_id: int):
@@ -41,17 +41,17 @@ def _get_scp_name(scp_id: int):
     # Handle 404 errors.
     except urllib.error.HTTPError as e:
       if e.code == 404:
-        print(f'\rWARNING: Unavailable SCP Series for SCP-{scp_id}!', file=sys.stderr)
+        print(f'\nWARNING: Unavailable SCP Series for SCP-{scp_id}!', file=sys.stderr)
         return
 
     # Handle other HTTP errors.
       else:
-        print(f'\rWARNING: Failed to access SCP Series page for SCP-{scp_id}. HTTP Status Code {e.code}. {e.read()}', file=sys.stderr)
+        print(f'\nWARNING: Failed to access SCP Series page for SCP-{scp_id}. HTTP Status Code {e.code}. {e.read()}', file=sys.stderr)
         return 
   
   # Even more error handling.
   except Exception as e:
-    print(f'\rWARNING: Failed to access SCP Series page for SCP-{scp_id}. Request Error: {e}', file=sys.stderr)
+    print(f'\nWARNING: Failed to access SCP Series page for SCP-{scp_id}. Request Error: {e}', file=sys.stderr)
     return
 
 def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]):
@@ -210,7 +210,7 @@ def get_scp_name(id: int):
   
   # Error handling
   except KeyError as e:
-    print(f"\rWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
+    print(f"\nWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
 
 def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   """
@@ -410,7 +410,7 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
           out.write(f'{content}<\|endoftext\|>\n')
 
         else:
-          # print(f'\rThe page for SCP-{j} is blank!')
+          # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
           pass
     
     if i % 250 == 0 and i != 0:
