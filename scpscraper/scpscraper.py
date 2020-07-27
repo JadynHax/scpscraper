@@ -401,15 +401,17 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
       else:
         j = i
       
-      soup = scpscraper.get_single_scp(j)
-      content = soup.find('div', id='page-content')
+      soup = get_single_scp(j)
       
-      if blank_page not in content:
-        out.write(f'{content}<\|endoftext\|>\n')
-      
-      else:
-        # print(f'\rThe page for SCP-{j} is blank!')
-        pass
+      if soup is not None:
+        content = soup.find('div', id='page-content')
+
+        if blank_page not in content:
+          out.write(f'{content}<\|endoftext\|>\n')
+
+        else:
+          # print(f'\rThe page for SCP-{j} is blank!')
+          pass
     
     if i % 250 == 0 and i != 0:
       try:
