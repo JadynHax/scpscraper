@@ -385,6 +385,11 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   # print("Done!")
 
 def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
+  """
+  [IN DEVELOPMENT]
+  
+  Scrapes the html code of SCPs min_skip to max_skip - 1.
+  """
   # Create/reset text file
   with open('scp_html.txt', "w"):
     pass
