@@ -14,7 +14,7 @@ def get_single_scp(scp_id: str):
   
   # Error handling.
   except Exception as e:
-    print(f'\rWARNING: Failed to access SCP Wiki page for SCP-{scp_id}. Error: {e}', file=sys.stderr)
+    print(f'\nWARNING: Failed to access SCP Wiki page for SCP-{scp_id}. Error: {e}', file=sys.stderr)
     return
 
 def _get_scp_name(scp_id: int):
@@ -41,17 +41,17 @@ def _get_scp_name(scp_id: int):
     # Handle 404 errors.
     except urllib.error.HTTPError as e:
       if e.code == 404:
-        print(f'\rWARNING: Unavailable SCP Series for SCP-{scp_id}!', file=sys.stderr)
+        print(f'\nWARNING: Unavailable SCP Series for SCP-{scp_id}!', file=sys.stderr)
         return
 
     # Handle other HTTP errors.
       else:
-        print(f'\rWARNING: Failed to access SCP Series page for SCP-{scp_id}. HTTP Status Code {e.code}. {e.read()}', file=sys.stderr)
+        print(f'\nWARNING: Failed to access SCP Series page for SCP-{scp_id}. HTTP Status Code {e.code}. {e.read()}', file=sys.stderr)
         return 
   
   # Even more error handling.
   except Exception as e:
-    print(f'\rWARNING: Failed to access SCP Series page for SCP-{scp_id}. Request Error: {e}', file=sys.stderr)
+    print(f'\nWARNING: Failed to access SCP Series page for SCP-{scp_id}. Request Error: {e}', file=sys.stderr)
     return
 
 def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]):
@@ -210,7 +210,7 @@ def get_scp_name(id: int):
   
   # Error handling
   except KeyError as e:
-    print(f"\rWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
+    print(f"\nWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
 
 def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   """
@@ -383,3 +383,58 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
     os.remove(f'{skip_file}.tmp')
 
   # print("Done!")
+
+def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
+  """
+  [IN DEVELOPMENT]
+  
+  Scrapes the html code of SCPs min_skip to max_skip - 1.
+  """
+  # Create/reset text file
+  with open('scp_html.txt', "w"):
+    pass
+  
+  # Define blank page contents.
+  blank_page = '<div style="text-align: center;">\n<h1 id="toc0"><span>This page doesn\'t exist yet!</span></h1>\n</div>\n<hr>\n<div style="background-color: #600; border: solid 1px #600; border-radius: 20px; color: #fff; width: 450px; margin: 0 auto; font-size: 150%; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.5), inset 0 10px rgba(255,204,204,.5), inset 0 10px 20px rgba(255,204,204,.3), inset 0 -15px 30px rgba(48,0,0,.5); line-height: 100%; padding: 0 10px;">\n<p><strong>Did you get feedback first?</strong></p>\n</div>\n<div style="background-color: #fff0f0; border: solid 1px #600; border-radius: 20px; color: #300; width: 450px; margin: 20px auto 0; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.5); padding: 0 10px;">'
+  
+  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip+1, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
+    with open('scp_html.txt', "a") as out:
+      if i < 10:
+        j = f'00{i}'
+      elif i < 100:
+        j = f'0{i}'
+      else:
+        j = i
+      
+      soup = get_single_scp(j)
+      
+      if soup is not None:
+        content = soup.find('div', id='page-content')
+
+        if blank_page not in content:
+          out.write(f'{content}<\|endoftext\|>\n')
+
+        else:
+          # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
+          pass
+    
+    if i % 250 == 0 and i != 0:
+      try:
+        get_ipython().system('zip -9 -uq html_scraper_output.zip scp_html.txt')
+
+      except NameError:
+        try:
+          import zipfile
+          from sys import version_info
+
+          if version_info[0] == 3 and version_info[1] >= 7:
+            with zipfile.ZipFile('html_scraper_output.zip', "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zip_out:
+              zip_out.write('scp_html.txt')
+
+          elif version_info[0] == 3:
+            with zipfile.ZipFile('html_scraper_output.zip', "w", compression=zipfile.ZIP_DEFLATED) as zip_out:
+              zip_out.write('scp_html.txt')
+
+        except RuntimeError:
+          print('\rThe zlib module is needed to compress files into zip files!')
+          pass
