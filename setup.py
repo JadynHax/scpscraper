@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fh:
 
 setup(
     name="scpscraper",
-    packages=find_packages(),
+    packages=['scpscraper'],
     version="0.1.0a2",
     license="MIT",
     author="JaonHax",
