@@ -236,7 +236,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   # print('Grabbing and writing skip info...\n', flush=True)
 
   # Initiate loop, create progress bar.
-  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip+1, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
+  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
     # Nice number formatting.
     if i < 10:
       j = f'00{i}'
@@ -397,7 +397,7 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
   # Define blank page contents.
   blank_page = '<div style="text-align: center;">\n<h1 id="toc0"><span>This page doesn\'t exist yet!</span></h1>\n</div>\n<hr>\n<div style="background-color: #600; border: solid 1px #600; border-radius: 20px; color: #fff; width: 450px; margin: 0 auto; font-size: 150%; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.5), inset 0 10px rgba(255,204,204,.5), inset 0 10px 20px rgba(255,204,204,.3), inset 0 -15px 30px rgba(48,0,0,.5); line-height: 100%; padding: 0 10px;">\n<p><strong>Did you get feedback first?</strong></p>\n</div>\n<div style="background-color: #fff0f0; border: solid 1px #600; border-radius: 20px; color: #300; width: 450px; margin: 20px auto 0; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.5); padding: 0 10px;">'
   
-  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip+1, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
+  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
     with open('scp_html.txt', "a") as out:
       if i < 10:
         j = f'00{i}'
