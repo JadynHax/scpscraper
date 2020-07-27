@@ -236,7 +236,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   # print('Grabbing and writing skip info...\n', flush=True)
 
   # Initiate loop, create progress bar.
-  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=125, initial=min_skip+1, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', dynamic_ncols=True):
+  for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip+1, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
     # Nice number formatting.
     if i < 10:
       j = f'00{i}'
