@@ -1,1 +1,0 @@
-from .scp_scraper import *
