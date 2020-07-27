@@ -19,6 +19,7 @@ setup(
     url="https://github.com/JaonHax/scp-scraper",
     keywords=["scp", "foundation", "webscraper", "tensorflow", "dataset"],
     install_requires=requirements,
+    include_package_data=True,
     classifiers=[
                  "Programming Language :: Python :: 3",
                  "License :: OSI Approved :: MIT License",
