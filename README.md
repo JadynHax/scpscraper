@@ -3,3 +3,6 @@ A small Python library designed for scraping data from the SCP wiki. Allows for 
 
 ## Planned future updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
+
+## Link to GitHub Repo
+https://github.com/JaonHax/scpscraper/
