@@ -190,9 +190,10 @@ def get_scp(scp_id: Union[str, int]):
   parsed_content = parse_scp(site_content, int(scp_id))
 
   # Get SCP's name and add it to parsed_content.
-  if '[ACCESS DENIED]' not in get_scp_name(int(scp_id)) and get_scp_name(int(scp_id)) is not None:
-    scp_name = get_scp_name(int(scp_id))
-    parsed_content['name'] = scp_name
+  if get_scp_name(int(scp_id)) is not None:
+    if '[ACCESS DENIED]' not in get_scp_name(int(scp_id)):
+      scp_name = get_scp_name(int(scp_id))
+      parsed_content['name'] = scp_name
   
   # Don't add the name if there was an error preventing get_scp_name from grabbing it.
   else:
