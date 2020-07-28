@@ -273,7 +273,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             
             # Add <|endoftext|> token if it's a dataset for training AI.
             if ai_dataset:
-              out.write('<\|endoftext\|>\n\n')
+              out.write('<|endoftext|>\n\n')
 
           # Error handling.
           except Exception as e:
@@ -290,7 +290,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
                 
                 # Add <|endoftext|> token if it's a dataset for training AI.
                 if ai_dataset:
-                  out.write('<\|endoftext\|>\n\n')
+                  out.write('<|endoftext|>\n\n')
           
           # Error handling.
           except:
@@ -346,12 +346,12 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             if ai_dataset:
               for k in addendalist:
                 buffer = k.strip(': ')
-                out.write(f'Addendum XXXX-XX: {buffer}<\|endoftext\|>')
+                out.write(f'Addendum XXXX-XX: {buffer}<|endoftext|>\n')
             
             # Do the same for non-dataset.
             else:
               for k in addendalist.keys():
-                buffer = f'{k}{addendalist[k]}'
+                buffer = f'{k}: {addendalist[k]}'
                 out.write(buffer)
 
           # Error handling.
@@ -427,7 +427,7 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
         content = soup.find('div', id='page-content')
 
         if blank_page not in content:
-          out.write(f'{content}<\|endoftext\|>\n')
+          out.write(f'{content}<|endoftext|>\n')
 
         else:
           # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
