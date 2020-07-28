@@ -252,19 +252,18 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
     else:
       j = i
     
-    # # Grab page content for each SCP in its own HTML file.
-    # # Useful for generating large HTML corpi.
-    # if i < 5000:
-    #   with open(f'z-scp-page-content-{j}.html', "w") as out:
-    #     soup = BeautifulSoup(urllib.request.urlopen(f'http://scp-wiki.net/scp-{j}'), 'html.parser')
-    #     content = soup.find('div', id='page-content')
-    #     out.write(str(content))
     try:
       # Get all the things for the SCP.
       mylist = get_scp(i)
 
       # Get the list of keys in the dictionary (so we can search through it later).
       keyslist = mylist["content"].keys()
+      
+      # Put stuff in a better format for the AI, if we're making a dataset for one
+      if ai_dataset:
+        for k in keyslist:
+          mylist["content"][k] = mylist["content"][k].replace('\n', ' ')
+      
       try:
         # Append current SCP's description to the description file.
         with open('scp-descrips.txt', 'a') as out:
@@ -273,7 +272,9 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             
             # Add <|endoftext|> token if it's a dataset for training AI.
             if ai_dataset:
-              out.write('<|endoftext|>\n\n')
+              out.write('<|endoftext|>\n')
+            
+            out.write('\n')
 
           # Error handling.
           except Exception as e:
@@ -348,7 +349,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             if ai_dataset:
               for k in addendalist:
                 buffer = k.strip(': ')
-                out.write(f'Addendum XXXX-XX: {buffer}<|endoftext|>\n\n')
+                out.write(f'Addendum XXXX-XX: {buffer}\n<|endoftext|>\n\n')
             
             # Do the same for non-dataset.
             else:
@@ -401,7 +402,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
 
   # print("Done!")
 
-def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
+def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   """
   [IN DEVELOPMENT]
   
@@ -429,7 +430,10 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000):
         content = soup.find('div', id='page-content')
 
         if blank_page not in content:
-          out.write(f'{content}<|endoftext|>\n')
+          out.write(f'{content}\n\n')
+          
+          if ai_dataset:
+            out.write('<|endoftext|>\n\n\n')
 
         else:
           # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
