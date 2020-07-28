@@ -263,16 +263,17 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
       if ai_dataset:
         for k in keyslist:
           mylist["content"][k] = mylist["content"][k].replace('\n', ' ')
+          mylist["content"][k] = mylist["content"][k].replace(j, 'XXXX')
       
       try:
         # Append current SCP's description to the description file.
         with open('scp-descrips.txt', 'a') as out:
           try:
-            out.write(f'Description: {mylist["content"]["Description"]}\n')
-            
             # Add <|endoftext|> token if it's a dataset for training AI.
             if ai_dataset:
-              out.write('<|endoftext|>\n')
+              out.write('Description: {}\n<|endoftext|>\n'.format(mylist["content"]["Description"].replace(j, 'XXXX')))
+            else:
+              out.write(f'Description: {mylist["content"]["Description"]}\n')
             
             out.write('\n')
 
@@ -287,11 +288,13 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             for k in keyslist:
               # Search keys for "Containment", output to conproc file if it matches.
               if "containment" in k.lower():
-                out.write(f'Special Containment Procedures: {mylist["content"][k]}\n')
+                if ai_dataset:
+                  out.write('Special Containment Procedures: {}\n<|endoftext|>\n'.format(mylist["content"][k].replace(j, 'XXXX')))
+                else:
+                  out.write(f'Special Containment Procedures: {mylist["content"][k]}\n')
                 
                 # Add <|endoftext|> token if it's a dataset for training AI.
-                if ai_dataset:
-                  out.write('<|endoftext|>\n')
+                
                 
                 out.write('\n')
           
@@ -349,7 +352,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             if ai_dataset:
               for k in addendalist:
                 buffer = k.strip(': ')
-                out.write(f'Addendum XXXX-XX: {buffer}\n<|endoftext|>\n\n')
+                out.write('Addendum XXXX-XX: {}\n<|endoftext|>\n\n'.format(buffer.replace(j, 'XXXX')))
             
             # Do the same for non-dataset.
             else:
@@ -430,26 +433,12 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
         content = soup.find('div', id='page-content')
 
         if blank_page not in content:
-          out.write(f'{content}\n\n')
-          
           if ai_dataset:
-            out.write('<|endoftext|>\n\n\n')
+            out.write('{}\n\n<|endoftext|>\n\n\n'.format(str(content).replace(j, 'XXXX')))
+          
+          else:
+            out.write(f'{content}\n\n')
 
         else:
           # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
           pass
-    
-    if i % 250 == 0 and i != 0:
-      try:
-        get_ipython().system('zip -9 -uq html_scraper_output.zip scp_html.txt')
-
-      except NameError:
-        import zipfile
-
-        if sys.version_info[0] == 3 and sys.version_info[1] >= 7:
-          with zipfile.ZipFile('html_scraper_output.zip', "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zip_out:
-            zip_out.write('scp_html.txt')
-
-        elif sys.version_info[0] == 3:
-          with zipfile.ZipFile('html_scraper_output.zip', "w", compression=zipfile.ZIP_DEFLATED) as zip_out:
-            zip_out.write('scp_html.txt')
