@@ -25,7 +25,7 @@ def _get_scp_name(scp_id: int):
     if scp_id < 1000:
       url = 'http://www.scp-wiki.net/scp-series'
     elif scp_id % 1000 == 0:
-      url = f'http://www.scp-wiki.net/scp-series-{scp_id/1000}'
+      url = f'http://www.scp-wiki.net/scp-series-{scp_id/1000+1}'
     else:
       url = f'http://www.scp-wiki.net/scp-series-{ceil(scp_id/1000, 0)}'
 
