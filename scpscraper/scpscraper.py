@@ -117,12 +117,12 @@ def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]):
       # Use bold portions as keys/identifiers for their sections.
       if item.strong:
         key = item.strong.get_text(strip=True).rstrip(':')
-        value = str(item.strong.next_sibling).strip()
+        value = str(item.strong.next_sibling).strip(': ')
       
       else:
         # Add subsequent paragraphs to the same section.
         if key is not None:
-          value = mapping[key] + ' ' + item.get_text(strip=True)
+          value = f'{mapping[key]}\n{item.get_text(strip=True)}'
         
         # Don't if there's no section to add them to.
         else:
@@ -290,7 +290,9 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
                 
                 # Add <|endoftext|> token if it's a dataset for training AI.
                 if ai_dataset:
-                  out.write('<|endoftext|>\n\n')
+                  out.write('<|endoftext|>\n')
+                
+                out.write('\n')
           
           # Error handling.
           except:
@@ -346,13 +348,13 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             if ai_dataset:
               for k in addendalist:
                 buffer = k.strip(': ')
-                out.write(f'Addendum XXXX-XX: {buffer}<|endoftext|>\n')
+                out.write(f'Addendum XXXX-XX: {buffer}<|endoftext|>\n\n')
             
             # Do the same for non-dataset.
             else:
               for k in addendalist.keys():
                 buffer = f'{k}: {addendalist[k]}'
-                out.write(buffer)
+                out.write(f'{buffer}\n\n')
 
           # Error handling.
           except Exception as e:
