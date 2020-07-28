@@ -37,9 +37,10 @@ def _get_scp_name(scp_id: int):
       list_elements = content.find_all('li')
 
       for li in list_elements:
-        if re.findall('[0-9]+', li.next['href']):
-          if int(re.findall('[0-9]+', li.next['href'])[0]) == scp_id:
-            return re.split(' - ', li.get_text())[-1]
+        if re.findall('[0-9]+', li.find_next('a')['href']):
+          if int(re.findall('[0-9]+', li.find_next('a')['href'])[0]) == scp_id:
+            scp_name = re.split('-', li.get_text())[-1]
+            return scp_name.strip(' ')
     
     # Handle 404 errors.
     except urllib.error.HTTPError as e:
