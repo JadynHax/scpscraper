@@ -1,4 +1,5 @@
 import os, shutil, sys, re, urllib.request
+from math import ceil
 from bs4 import BeautifulSoup
 from typing import Union
 from tqdm import tqdm
@@ -21,10 +22,12 @@ def _get_scp_name(scp_id: int):
   """Gets the name of an SCP from the SCP Series pages. Internal function, shouldn't need to be called by a user."""
   try:
     # Determine which series the SCP is in.
-    if int(scp_id) < 1000:
+    if scp_id < 1000:
       url = 'http://www.scp-wiki.net/scp-series'
+    elif scp_id % 1000 == 0:
+      url = f'http://www.scp-wiki.net/scp-series-{scp_id/1000}'
     else:
-      url = f'http://www.scp-wiki.net/scp-series-{int(round(int(scp_id)/1000, 0))}'
+      url = f'http://www.scp-wiki.net/scp-series-{ceil(scp_id/1000, 0)}'
 
     # Grab the HTML and parse as needed.
     r = urllib.request.urlopen(url=url)
