@@ -214,7 +214,7 @@ def get_scp_name(id: int):
   # Error handling
   except KeyError as e:
 #     print(f"\nWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
-  pass
+    pass
 
 def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   """
