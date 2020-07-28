@@ -25,9 +25,9 @@ def _get_scp_name(scp_id: int):
     if scp_id < 1000:
       url = 'http://www.scp-wiki.net/scp-series'
     elif scp_id % 1000 == 0:
-      url = f'http://www.scp-wiki.net/scp-series-{scp_id/1000+1}'
+      url = f'http://www.scp-wiki.net/scp-series-{int(scp_id/1000+1)}'
     else:
-      url = f'http://www.scp-wiki.net/scp-series-{ceil(scp_id/1000)}'
+      url = f'http://www.scp-wiki.net/scp-series-{ceil(scp_id/1000, 0)}'
 
     # Grab the HTML and parse as needed.
     r = urllib.request.urlopen(url=url)
@@ -209,8 +209,9 @@ def get_scp_name(id: int):
   """
   try:
     # Redundant, but I can sleep easier since it has that extra layer of fallback.
-    if "[ACCESS DENIED]" not in _get_scp_name(id) and _get_scp_name(id) is not None:
-      return _get_scp_name(id)
+    if _get_scp_name(id) is not None:
+      if "[ACCESS DENIED]" not in _get_scp_name(id):
+        return _get_scp_name(id)
   
   # Error handling
   except KeyError as e:
@@ -299,10 +300,15 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
           # Append current SCP's title to the title file (if we can grab it).
           with open('scp-titles.txt', 'a') as out:
             # Even more redundancy. I know. This is getting ridiculous.
-            if "[ACCESS DENIED]" not in mylist["name"] and mylist["name"] is not None:
-              out.write(f'SCP-XXXX: {mylist["name"]}')
+            if mylist["name"] is not None:
+              if "[ACCESS DENIED]" not in mylist["name"]:
+                out.write(f'SCP-XXXX: {mylist["name"]}')
+
+              # Handle nonexistent SCPs.
+              else:
+                # print(f'SCP-{j} doesn\'t exist yet!')
+                pass
             
-            # Handle nonexistent SCPs.
             else:
               # print(f'SCP-{j} doesn\'t exist yet!')
               pass
