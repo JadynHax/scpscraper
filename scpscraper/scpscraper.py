@@ -303,7 +303,10 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
             # Even more redundancy. I know. This is getting ridiculous.
             if mylist["name"] is not None:
               if "[ACCESS DENIED]" not in mylist["name"]:
-                out.write(f'SCP-XXXX: {mylist["name"]}')
+                if ai_dataset:
+                  out.write(f'SCP-XXXX: {mylist["name"]}\n')
+                else:
+                  out.write(f'SCP-{j}: {mylist["name"]}\n')
 
               # Handle nonexistent SCPs.
               else:
