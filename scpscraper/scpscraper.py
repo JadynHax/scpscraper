@@ -447,7 +447,7 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
         # Get page tags
         tags_list = html.find('div', {'class': 'page-tags'}).find('span')
         page_tags = [tag.string for tag in tags_list if tag.string != '\n']
-`
+
         # Tag match checking code
         match = False
 
