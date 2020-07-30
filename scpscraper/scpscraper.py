@@ -419,7 +419,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tag
 
   # print("Done!")
 
-def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
+def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]):
   """
   [IN DEVELOPMENT]
   
@@ -444,6 +444,18 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
       soup = get_single_scp(j)
       
       if soup is not None:
+        # Get page tags
+        tags_list = html.find('div', {'class': 'page-tags'}).find('span')
+        page_tags = [tag.string for tag in tags_list if tag.string != '\n']
+`
+        # Tag match checking code
+        match = False
+
+        if tags != []:
+          for tag in tags:
+            if tag in page_tags:
+              match = True
+              break
         content = soup.find('div', id='page-content')
 
         if blank_page not in content:
