@@ -219,7 +219,7 @@ def get_scp_name(id: int):
 #     print(f"\nWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
     pass
 
-def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
+def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]):
   """
   Scrapes as much info on all SCPs from min_skip to max_skip - 1 as possible. Writes this info to different files based on its section.
 
@@ -229,7 +229,8 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
   Parameters:
     min_skip: The SCP number to start at. Default: 0
     max_skip: The SCP number to end at plus one. Default: 6000
-    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "\<\|endoftext\|\>" tokens where necessary to divide the dataset for training. Default: False
+    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
+    tags: The list of tags to grab from. Will ignore SCPs without these tags. An empty list (default) matches all tags.
   """
   # Create/clear the files we need for scraping.
   filelist = []
@@ -255,126 +256,139 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False):
     try:
       # Get all the things for the SCP.
       mylist = get_scp(i)
-
+      
+      # Tag match checking code
+      match = False
+      
+      if tags != []:
+        for tag in tags:
+          if tag in mylist["tags"]:
+            match = True
+            break
+      
+      else:
+        match = True
+      
       # Get the list of keys in the dictionary (so we can search through it later).
-      keyslist = mylist["content"].keys()
-      
-      # Put stuff in a better format for the AI, if we're making a dataset for one
-      if ai_dataset:
-        for k in keyslist:
-          mylist["content"][k] = mylist["content"][k].replace('\n', ' ')
-          mylist["content"][k] = mylist["content"][k].replace(j, 'XXXX')
-      
-      try:
-        # Append current SCP's description to the description file.
-        with open('scp-descrips.txt', 'a') as out:
-          try:
-            # Add <|endoftext|> token if it's a dataset for training AI.
-            if ai_dataset:
-              out.write('Description: {}\n<|endoftext|>\n'.format(mylist["content"]["Description"].replace(j, 'XXXX')))
-            else:
-              out.write(f'Description: {mylist["content"]["Description"]}\n')
-            
-            out.write('\n')
+      if match:
+        keyslist = mylist["content"].keys()
 
-          # Error handling.
-          except Exception as e:
-            # print(f'Failed to grab the description of SCP-{j}! Please grab it yourself! Error: {e}')
-            pass
+        # Put stuff in a better format for the AI, if we're making a dataset for one
+        if ai_dataset:
+          for k in keyslist:
+            mylist["content"][k] = mylist["content"][k].replace('\n', ' ')
+            mylist["content"][k] = mylist["content"][k].replace(j, 'XXXX')
 
-        # Append current SCP's conprocs to the conproc file.
-        with open('scp-conprocs.txt', 'a') as out:
-          try:
-            for k in keyslist:
-              # Search keys for "Containment", output to conproc file if it matches.
-              if "containment" in k.lower():
-                if ai_dataset:
-                  out.write('Special Containment Procedures: {}\n<|endoftext|>\n'.format(mylist["content"][k].replace(j, 'XXXX')))
-                else:
-                  out.write(f'Special Containment Procedures: {mylist["content"][k]}\n')
-                
-                # Add <|endoftext|> token if it's a dataset for training AI.
-                
-                
-                out.write('\n')
-          
-          # Error handling.
-          except:
-            # print(f'Failed to grab the conprocs of SCP-{j}! It is probably not an article with a standard format! Please grab them yourself!')
-            pass
-        
         try:
-          # Append current SCP's title to the title file (if we can grab it).
-          with open('scp-titles.txt', 'a') as out:
-            # Even more redundancy. I know. This is getting ridiculous.
-            if mylist["name"] is not None:
-              if "[ACCESS DENIED]" not in mylist["name"]:
-                if ai_dataset:
-                  out.write(f'SCP-XXXX: {mylist["name"]}\n')
-                else:
-                  out.write(f'SCP-{j}: {mylist["name"]}\n')
+          # Append current SCP's description to the description file.
+          with open('scp-descrips.txt', 'a') as out:
+            try:
+              # Add <|endoftext|> token if it's a dataset for training AI.
+              if ai_dataset:
+                out.write('Description: {}\n<|endoftext|>\n'.format(mylist["content"]["Description"].replace(j, 'XXXX')))
+              else:
+                out.write(f'Description: {mylist["content"]["Description"]}\n')
 
-              # Handle nonexistent SCPs.
+              out.write('\n')
+
+            # Error handling.
+            except Exception as e:
+              # print(f'Failed to grab the description of SCP-{j}! Please grab it yourself! Error: {e}')
+              pass
+
+          # Append current SCP's conprocs to the conproc file.
+          with open('scp-conprocs.txt', 'a') as out:
+            try:
+              for k in keyslist:
+                # Search keys for "Containment", output to conproc file if it matches.
+                if "containment" in k.lower():
+                  if ai_dataset:
+                    out.write('Special Containment Procedures: {}\n<|endoftext|>\n'.format(mylist["content"][k].replace(j, 'XXXX')))
+                  else:
+                    out.write(f'Special Containment Procedures: {mylist["content"][k]}\n')
+
+                  # Add <|endoftext|> token if it's a dataset for training AI.
+
+
+                  out.write('\n')
+
+            # Error handling.
+            except:
+              # print(f'Failed to grab the conprocs of SCP-{j}! It is probably not an article with a standard format! Please grab them yourself!')
+              pass
+
+          try:
+            # Append current SCP's title to the title file (if we can grab it).
+            with open('scp-titles.txt', 'a') as out:
+              # Even more redundancy. I know. This is getting ridiculous.
+              if mylist["name"] is not None:
+                if "[ACCESS DENIED]" not in mylist["name"]:
+                  if ai_dataset:
+                    out.write(f'SCP-XXXX: {mylist["name"]}\n')
+                  else:
+                    out.write(f'SCP-{j}: {mylist["name"]}\n')
+
+                # Handle nonexistent SCPs.
+                else:
+                  # print(f'SCP-{j} doesn\'t exist yet!')
+                  pass
+
               else:
                 # print(f'SCP-{j} doesn\'t exist yet!')
                 pass
-            
-            else:
-              # print(f'SCP-{j} doesn\'t exist yet!')
-              pass
-        
-        # Error handling.
-        except Exception as e:
-          # raise e
-          # print(f'Failed to grab the title of SCP-{j}! Please grab it yourself! Error: {e}')
-          pass
-        
-        # Find and append addenda (if they exist) to the addenda file.
-        with open('scp-addenda.txt', 'a') as out:
-          try:
-            # Define list or dictionary depending on whether or not we need the keys.
-            if ai_dataset:
-              addendalist = []
-            else:
-              addendalist = {}
-            
-            for k in keyslist:
-              # Search keys for "Addendum", add to addendalist if it matches.
-              if "addendum" in k.lower():
-                if ai_dataset:
-                  addendalist.append(mylist["content"][k])
-              
-                # Do the same thing for non-dataset, also adding the keys.
-                else:
-                  addendalist.update({k: mylist["content"][k]})
-            
-            # Write addenda to addenda file.
-            if ai_dataset:
-              for k in addendalist:
-                buffer = k.strip(': ')
-                out.write('Addendum XXXX-XX: {}\n<|endoftext|>\n\n'.format(buffer.replace(j, 'XXXX')))
-            
-            # Do the same for non-dataset.
-            else:
-              for k in addendalist.keys():
-                buffer = f'{k}: {addendalist[k]}'
-                out.write(f'{buffer}\n\n')
 
           # Error handling.
           except Exception as e:
-            # print(f'Failed to grab the addenda of SCP-{j}! Please grab them yourself (if they exist)! Error: {e}')
+            # raise e
+            # print(f'Failed to grab the title of SCP-{j}! Please grab it yourself! Error: {e}')
             pass
-      
-      # More error handling.
+
+          # Find and append addenda (if they exist) to the addenda file.
+          with open('scp-addenda.txt', 'a') as out:
+            try:
+              # Define list or dictionary depending on whether or not we need the keys.
+              if ai_dataset:
+                addendalist = []
+              else:
+                addendalist = {}
+
+              for k in keyslist:
+                # Search keys for "Addendum", add to addendalist if it matches.
+                if "addendum" in k.lower():
+                  if ai_dataset:
+                    addendalist.append(mylist["content"][k])
+
+                  # Do the same thing for non-dataset, also adding the keys.
+                  else:
+                    addendalist.update({k: mylist["content"][k]})
+
+              # Write addenda to addenda file.
+              if ai_dataset:
+                for k in addendalist:
+                  buffer = k.strip(': ')
+                  out.write('Addendum XXXX-XX: {}\n<|endoftext|>\n\n'.format(buffer.replace(j, 'XXXX')))
+
+              # Do the same for non-dataset.
+              else:
+                for k in addendalist.keys():
+                  buffer = f'{k}: {addendalist[k]}'
+                  out.write(f'{buffer}\n\n')
+
+            # Error handling.
+            except Exception as e:
+              # print(f'Failed to grab the addenda of SCP-{j}! Please grab them yourself (if they exist)! Error: {e}')
+              pass
+
+        # More error handling.
+        except Exception as e:
+          # print(f'Failed to write the info for SCP-{j}! Error: {e}')
+          pass
+
+      # Wow, just look at all that error handling!
       except Exception as e:
-        # print(f'Failed to write the info for SCP-{j}! Error: {e}')
+        # print(f'Failed to grab the info for {i}! Error: {e}')
         pass
-    
-    # Wow, just look at all that error handling!
-    except Exception as e:
-      # print(f'Failed to grab the info for {i}! Error: {e}')
-      pass
-    # print(mylist)
+      # print(mylist)
 
   filelist_names = [
                     'scp-descrips.txt',
