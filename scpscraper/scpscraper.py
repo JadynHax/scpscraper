@@ -421,9 +421,16 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tag
 
 def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]):
   """
-  [IN DEVELOPMENT]
-  
   Scrapes the html code of SCPs min_skip to max_skip - 1.
+  
+  Output files:
+    scp-html.txt.
+
+  Parameters:
+    min_skip: The SCP number to start at. Default: 0
+    max_skip: The SCP number to end at plus one. Default: 6000
+    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
+    tags: The list of tags to grab from. Will ignore SCPs without these tags. An empty list (default) matches all tags.
   """
   # Create/reset text file
   with open('scp_html.txt', "w"):
@@ -433,7 +440,7 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
   blank_page = '<div style="text-align: center;">\n<h1 id="toc0"><span>This page doesn\'t exist yet!</span></h1>\n</div>\n<hr>\n<div style="background-color: #600; border: solid 1px #600; border-radius: 20px; color: #fff; width: 450px; margin: 0 auto; font-size: 150%; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.5), inset 0 10px rgba(255,204,204,.5), inset 0 10px 20px rgba(255,204,204,.3), inset 0 -15px 30px rgba(48,0,0,.5); line-height: 100%; padding: 0 10px;">\n<p><strong>Did you get feedback first?</strong></p>\n</div>\n<div style="background-color: #fff0f0; border: solid 1px #600; border-radius: 20px; color: #300; width: 450px; margin: 20px auto 0; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.5); padding: 0 10px;">'
   
   for i in tqdm(range(min_skip, max_skip), "Fetching skips", total=max_skip, ncols=150, initial=min_skip, unit="skip", file=sys.stdout, bar_format='{desc}... {percentage:3.2f}% |{bar}|  [{remaining} remaining, {rate_fmt}]', smoothing=0.01875):
-    with open('scp_html.txt', "a") as out:
+    with open('scp-html.txt', "a") as out:
       if i < 10:
         j = f'00{i}'
       elif i < 100:
@@ -456,15 +463,20 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
             if tag in page_tags:
               match = True
               break
-        content = soup.find('div', id='page-content')
-
-        if blank_page not in content:
-          if ai_dataset:
-            out.write('{}\n\n<|endoftext|>\n\n\n'.format(str(content).replace(j, 'XXXX')))
-          
-          else:
-            out.write(f'{content}\n\n')
-
+        
         else:
-          # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
-          pass
+          match = True
+        
+        if match:
+          content = soup.find('div', id='page-content')
+
+          if blank_page not in content:
+            if ai_dataset:
+              out.write('{}\n\n<|endoftext|>\n\n\n'.format(str(content).replace(j, 'XXXX')))
+
+            else:
+              out.write(f'{content}\n\n')
+
+          else:
+            # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
+            pass
