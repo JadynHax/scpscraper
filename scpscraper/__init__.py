@@ -1,2 +1,2 @@
-from .scpscraper import *
-import .gdrive
+from scpscraper.scpscraper import *
+import scpscraper.gdrive
