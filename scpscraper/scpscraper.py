@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from typing import Union
 from tqdm import tqdm
 
-import gdrive
+from scpscraper import gdrive
 
 def get_single_scp(scp_id: str) -> BeautifulSoup:
   """Returns HTML code for the `page-content` div of a given SCP."""
