@@ -9,5 +9,18 @@ def test_get_name():
 def test_scrape_scps():
   scpscraper.scrape_scps(0, 50)
   
-  with open('scp-descrips.txt', 'r') as in_text:
-    assert in_text.read() != '', 'scrape_scps() is not working properly!'
+  filelist = [
+                    'scp-descrips.txt',
+                    'scp-conprocs.txt',
+                    'scp-titles.txt',
+  ]
+  
+  for test_file in filelist:
+    with open(test_file, 'r') as in_text:
+      assert in_text.read() != '', f'scrape_scps() is not working properly! {test_file} is empty!'
+
+def test_scps_html():
+  scpscraper.scrape_scps_html(0, 50)
+  
+  with open('scp-html.txt', 'r') as in_text:
+    assert in_text.read() != '', f'scrape_scps() is not working properly! scp-html is empty!'
