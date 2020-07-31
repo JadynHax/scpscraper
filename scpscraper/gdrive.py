@@ -43,13 +43,13 @@ def copy(path: str):
   
   if os.path.exists(path):
     if os.path.isfile(path):
-      shutil.copyfile(path, "/content/drive/My Drive/{}".format(path)
+      shutil.copyfile(path, f"/content/drive/My Drive/{path}")
 
     elif os.path.isdir(path):
-      shutil.copytree(path, "/content/drive/My Drive/{}".format(path)
+      shutil.copytree(path, f"/content/drive/My Drive/{path}")
 
     else:
-      raise PathNotRecognizedError("Path {} is not a file or a directory!".format(path))
+      raise PathNotRecognizedError(f"Path {path} is not a file or a directory!")
   
   else:
-    raise PathNotExistsError("Path {} does not exist!".format(path))
+    raise PathNotExistsError(f"Path {path} does not exist!")
