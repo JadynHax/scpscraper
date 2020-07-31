@@ -52,4 +52,4 @@ def copy(path: str):
       raise PathNotRecognizedError("Path {} is not a file or a directory!".format(path))
   
   else:
-    raise PathNotExistsError("Path {} does not exist!".format(path)
+    raise PathNotExistsError("Path {} does not exist!".format(path))
