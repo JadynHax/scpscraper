@@ -35,7 +35,7 @@ def _is_mounted():
   else:
     raise DriveNotMountedError("You must first mount your Google Drive using scpscraper.gdrive.mount()!")
 
-def copy(path: str):
+def copy_to_drive(path: str):
   """
   Copies a file or directory to your Google Drive.
   """
@@ -53,3 +53,22 @@ def copy(path: str):
   
   else:
     raise PathNotExistsError(f"Path {path} does not exist!")
+
+def copy_from_drive(path: str):
+  """
+  Copies a file or directory to your Google Drive.
+  """
+  _is_mounted()
+  
+  if os.path.exists(f"/content/drive/My Drive/{path}"):
+    if os.path.isfile(f"/content/drive/My Drive/{path}"):
+      shutil.copyfile(f"/content/drive/My Drive/{path}", path)
+
+    elif os.path.isdir(f"/content/drive/My Drive/{path}"):
+      shutil.copytree(f"/content/drive/My Drive/{path}", path)
+
+    else:
+      raise PathNotRecognizedError(f"Path /content/drive/My Drive/{path} is not a file or a directory!")
+  
+  else:
+    raise PathNotExistsError(f"Path /content/drive/My Drive/{path} does not exist!")
