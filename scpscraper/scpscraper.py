@@ -384,11 +384,11 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tag
           # print(f'Failed to write the info for SCP-{j}! Error: {e}')
           pass
 
-      # Wow, just look at all that error handling!
-      except Exception as e:
-        # print(f'Failed to grab the info for {i}! Error: {e}')
-        pass
-      # print(mylist)
+    # Wow, just look at all that error handling!
+    except Exception as e:
+      # print(f'Failed to grab the info for {i}! Error: {e}')
+      pass
+    # print(mylist)
 
   filelist_names = [
                     'scp-descrips.txt',
