@@ -224,7 +224,7 @@ def get_scp_name(id: int) -> str:
 #     print(f"\nWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
     pass
 
-def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: bool=False) -> None:
+def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: bool=False, copy_to_drive: bool=False) -> None:
   """
   Scrapes as much info on all SCPs from min_skip to max_skip - 1 as possible. Writes this info to different files based on its section.
 
@@ -236,7 +236,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: 
     max_skip: The SCP number to end at plus one. Default: 6000
     tags: The list of tags to grab from. Will ignore SCPs without these tags. An empty list (default) matches all tags.
     ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
-    copy_to_drive: Set to True to copy the output files to your Google Drive when done creating them. Requires having your Google Drive mounted (preferably with scpscraper.gdrive.mount()).
+    copy_to_drive: Set to True to copy the output files to your Google Drive when done creating them. Requires having your Google Drive mounted (preferably with scpscraper.gdrive.mount()). Default: False
   """
   # Create/clear the files we need for scraping.
   filelist = []
@@ -422,7 +422,8 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: 
       with open(skip_file, 'w') as outfile:
         outfile.write(infile.read())
     os.remove(f'{skip_file}.tmp')
-
+    if copy_to_drive:
+      gdrive.copy_to_drive(skip_file)
   # print("Done!")
 
 def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]) -> None:
@@ -486,3 +487,6 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
           else:
             # print(f'\nThe page for SCP-{j} is blank!', file=sys.stderr)
             pass
+  
+  if copy_to_drive:
+    gdrive.copy_to_drive('scp-html.txt')
