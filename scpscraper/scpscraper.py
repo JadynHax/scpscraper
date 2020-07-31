@@ -426,7 +426,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: 
       gdrive.copy_to_drive(skip_file)
   # print("Done!")
 
-def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]) -> None:
+def scrape_scps_html(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: bool=False, copy_to_drive: bool=False) -> None:
   """
   Scrapes the html code of SCPs min_skip to max_skip - 1.
   
@@ -436,8 +436,9 @@ def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False
   Parameters:
     min_skip: The SCP number to start at. Default: 0
     max_skip: The SCP number to end at plus one. Default: 6000
-    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
     tags: The list of tags to grab from. Will ignore SCPs without these tags. An empty list (default) matches all tags.
+    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
+    copy_to_drive: Set to True to copy the output files to your Google Drive when done creating them. Requires having your Google Drive mounted (preferably with scpscraper.gdrive.mount()). Default: False
   """
   # Create/reset text file
   with open('scp_html.txt', "w"):
