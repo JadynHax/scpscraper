@@ -4,7 +4,9 @@ from bs4 import BeautifulSoup
 from typing import Union
 from tqdm import tqdm
 
-def get_single_scp(scp_id: str):
+from scpscraper import gdrive.copy
+
+def get_single_scp(scp_id: str) -> BeautifulSoup:
   """Returns HTML code for the `page-content` div of a given SCP."""
   try:
     # Grab the HTML code.
@@ -18,7 +20,7 @@ def get_single_scp(scp_id: str):
 #     print(f'\nWARNING: Failed to access SCP Wiki page for SCP-{scp_id}. Error: {e}', file=sys.stderr)
     return
 
-def _get_scp_name(scp_id: int):
+def _get_scp_name(scp_id: int) -> str:
   """Gets the name of an SCP from the SCP Series pages. Internal function, shouldn't need to be called by a user."""
   try:
     # Determine which series the SCP is in.
@@ -58,7 +60,7 @@ def _get_scp_name(scp_id: int):
 #     print(f'\nWARNING: Failed to access SCP Series page for SCP-{scp_id}. Request Error: {e}', file=sys.stderr)
     return
 
-def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]):
+def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]) -> dict:
   """Parses the HTML content of a page on the SCP wiki. Internal function, shouldn't need to be called by a user."""
   # Just to get this out of the way...
   if soup is None:
@@ -114,10 +116,13 @@ def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]):
 
     # Find all the paragraph elements.
     for item in content.find_all('p'):
+      # Grab the paragraph element's first child.
+      first_child = item.next
+      
       # Use bold portions as keys/identifiers for their sections.
-      if item.strong:
-        key = item.strong.get_text(strip=True).rstrip(':')
-        value = str(item.strong.next_sibling).strip(': ')
+      if first_child.name == 'strong':
+        key = first_child.text.rstrip(': ')
+        value = first_child.next_sibling.strip(': ')
       
       else:
         # Add subsequent paragraphs to the same section.
@@ -170,7 +175,7 @@ def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]):
     'discussion': discussion_link
   }
 
-def get_scp(scp_id: Union[str, int]):
+def get_scp(scp_id: Union[str, int]) -> dict:
   """
   Returns a dictionary with as much content as possible regarding the SCP ID.
 
@@ -201,7 +206,7 @@ def get_scp(scp_id: Union[str, int]):
   
   return parsed_content
 
-def get_scp_name(id: int):
+def get_scp_name(id: int) -> str:
   """
   Scrapes an SCP's name. Ignores uncreated SCPs. Returns the SCP's name as a string.
   
@@ -219,7 +224,7 @@ def get_scp_name(id: int):
 #     print(f"\nWARNING: Failed to scrape SCP-{id}! Error: {e}", file=sys.stderr)
     pass
 
-def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]):
+def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: bool=False) -> None:
   """
   Scrapes as much info on all SCPs from min_skip to max_skip - 1 as possible. Writes this info to different files based on its section.
 
@@ -229,8 +234,9 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tag
   Parameters:
     min_skip: The SCP number to start at. Default: 0
     max_skip: The SCP number to end at plus one. Default: 6000
-    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
     tags: The list of tags to grab from. Will ignore SCPs without these tags. An empty list (default) matches all tags.
+    ai_dataset: Set to True if data is later going to be used to train an AI. Adds "<|endoftext|>" tokens where necessary to divide the dataset for training. Default: False
+    copy_to_drive: Set to True to copy the output files to your Google Drive when done creating them. Requires having your Google Drive mounted (preferably with scpscraper.gdrive.mount()).
   """
   # Create/clear the files we need for scraping.
   filelist = []
@@ -419,7 +425,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tag
 
   # print("Done!")
 
-def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]):
+def scrape_scps_html(min_skip: int=0, max_skip: int=6000, ai_dataset: bool=False, tags: list=[]) -> None:
   """
   Scrapes the html code of SCPs min_skip to max_skip - 1.
   
