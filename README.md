@@ -36,6 +36,12 @@ print(info) # Outputs a dictionary with the
 ```
 
 ##### Grabbing an SCP's `page-content` div HTML
+```py
+# Once again, 3001 is the example
+scp = scpscraper.get_single_scp(3001)
+
+
+```
 
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -43,5 +49,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU2MzQ4MDg3OCw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTE0OTA0Mzg4NzIsODY3NDgzODM5XX0=
 -->
