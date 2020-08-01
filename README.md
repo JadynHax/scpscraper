@@ -60,7 +60,12 @@ scpscraper.scrape_scps(0, 100, tags=['keter'])
 # Grab 000-099 in a format that can be used to train AI
 scpscraper.scrape_scps(0, 100, ai_dataset=True)
 
-# Grab 000-099
+# Grab 000-099 and copy them to your Google Drive afterwards
+# NOTE: this can only be used when running on Google Colaboratory
+scpscraper.scrape_scps(0, 100, copy_to_drive=True)
+```
+```py
+# Sc
 ```
 
 ## Planned Updates
@@ -69,5 +74,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQyNzAwMzUzOCw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTg0NDU3NjgxNCw4Njc0ODM4MzldfQ==
 -->
