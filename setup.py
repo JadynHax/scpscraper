@@ -9,7 +9,7 @@ with open("requirements.txt", "r") as fh:
 setup(
       name="scpscraper",
       packages=['scpscraper'],
-      version="1.0.0a0",
+      version="1.0.0",
       license="MIT",
       author="JaonHax",
       author_email="jaonhax@gmail.com",
