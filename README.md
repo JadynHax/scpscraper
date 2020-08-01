@@ -38,7 +38,7 @@ print(info) # Outputs a dictionary with the
 
 ### The Fun Stuff
 #### Grabbing an SCP's `page-content` div HTML
-
+For reference, the `page-content` div contains what the user actually wrote, without all the extra Wikidot external stuff.
 ```py
 # Once again, 3001 is the example
 scp = scpscraper.get_single_scp(3001)
@@ -57,10 +57,10 @@ scpscraper.scrape_scps(0, 100)
 # Same as above, but only grabbing Keter-class SCPs
 scpscraper.scrape_scps(0, 100, tags=['keter'])
 
-# Grabbing 000-099 in a format that can be used to train AI
+# Grab 000-099 in a format that can be used to train AI
 scpscraper.scrape_scps(0, 100, ai_dataset=True)
 
-
+# Grab 000-099
 ```
 
 ## Planned Updates
@@ -69,5 +69,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTkxOTg5NTgwLDg2NzQ4MzgzOV19
+eyJoaXN0b3J5IjpbLTQyNzAwMzUzOCw4Njc0ODM4MzldfQ==
 -->
