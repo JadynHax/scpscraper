@@ -68,13 +68,16 @@ scpscraper.scrape_scps(0, 100, ai_dataset=True)
 scpscraper.scrape_scps_html(0, 100)
 ```
 
-### Colaboratory Only Usage
-
+### Google Colaboratory Only Usage
+Because of the `google.colab` module included in Google Colaboratory, we can do a few extra things there that we can't otherwise.
+#### Mount your Google Drive to the Colaboratory VM
+```py
+scpscraper.mount
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
 
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA1OTM3MzI5NSw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTIwNzUzMTQ1MzUsODY3NDgzODM5XX0=
 -->
