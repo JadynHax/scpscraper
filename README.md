@@ -65,7 +65,9 @@ scpscraper.scrape_scps(0, 100, ai_dataset=True)
 scpscraper.scrape_scps(0, 100, copy_to_drive=True)
 ```
 ```py
-# Sc
+# Scrape the page-content div's HTML from SCP-000 to SCP-099
+# Only including this as the example, but scrape_scps_
+scpscraper.scrape_scps_html(0, 100)
 ```
 
 ## Planned Updates
@@ -74,5 +76,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg0NDU3NjgxNCw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTExODA0NjQ3MTYsODY3NDgzODM5XX0=
 -->
