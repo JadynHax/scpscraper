@@ -59,16 +59,16 @@ scpscraper.scrape_scps(0, 100, tags=['keter'])
 
 # Grab 000-099 in a format that can be used to train AI
 scpscraper.scrape_scps(0, 100, ai_dataset=True)
-
-# Grab 000-099 and copy them to your Google Drive afterwards
-# NOTE: this can only be used when running on Google Colaboratory
-scpscraper.scrape_scps(0, 100, copy_to_drive=True)
 ```
 ```py
 # Scrape the page-content div's HTML from SCP-000 to SCP-099
-# Only including this as the example, but scrape_scps_
+
+# Only including this as an example, but scrape_scps_html() has
+# all the same options as scrape_scps().
 scpscraper.scrape_scps_html(0, 100)
 ```
+
+### Colaboratory Only Usage
 
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -76,5 +76,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExODA0NjQ3MTYsODY3NDgzODM5XX0=
+eyJoaXN0b3J5IjpbMTA1OTM3MzI5NSw4Njc0ODM4MzldfQ==
 -->
