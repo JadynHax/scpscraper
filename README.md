@@ -82,7 +82,13 @@ scpscraper.gdrive.mount()
 # Requires your Google Drive to be mounted at the directory /content/drive/
 scpscraper.scrape_scps(0, 100, copy_to_drive=True)
 
+scpscraper.scrape_scps_html(0, 100, copy_to_drive=True)
+```
 
+#### Copy other files to/from your Google Drive
+```py
+# Requires your Google Drive to be mounted at the directory /content/drive/
+scpscraper.gdrive.copy_to_drive
 ```
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -90,5 +96,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzOTc4NTgwMDgsODY3NDgzODM5XX0=
+eyJoaXN0b3J5IjpbLTE3NTE4MDE5MjUsODY3NDgzODM5XX0=
 -->
