@@ -88,7 +88,9 @@ scpscraper.scrape_scps_html(0, 100, copy_to_drive=True)
 #### Copy other files to/from your Google Drive
 ```py
 # Requires your Google Drive to be mounted at the directory /content/drive/
-scpscraper.gdrive.copy_to_drive
+scpscraper.gdrive.copy_to_drive('example.txt')
+
+scpscraper.gdrive.copy_from_drive('example.txt')
 ```
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -96,5 +98,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3NTE4MDE5MjUsODY3NDgzODM5XX0=
+eyJoaXN0b3J5IjpbMTgwNzY1NjA0Myw4Njc0ODM4MzldfQ==
 -->
