@@ -96,7 +96,8 @@ scpscraper.gdrive.copy_from_drive('example.txt')
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
 
 ## Link to GitHub Repo
+Please consider checking it out! You can report issues, request features, contribute to this project, etc. in the GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgwNzY1NjA0Myw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTgyODY0NDkyMyw4Njc0ODM4MzldfQ==
 -->
