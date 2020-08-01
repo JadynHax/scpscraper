@@ -7,7 +7,7 @@ with open("requirements.txt", "r") as fh:
   requirements = fh.readlines()
 
 setup(
-      name="scpscraper",
+      name="scpscraper-dev",
       packages=['scpscraper'],
       version="1.0.0",
       license="MIT",
