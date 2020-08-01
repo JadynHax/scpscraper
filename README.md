@@ -4,14 +4,10 @@ A small Python library designed for scraping data from the SCP wiki. Made with A
 
 Below you will find installation instructions, examples of how to use this library, and the ways in which you can utilize it. I hope you find this as useful as I have!
 
-## Installation
-`scpscraper` can be installed via `pip install`. Here's the command I recommend using, so you consistently have the latest version.
-```
-pip3 install --upgrade scpscraper
-```
 
-## Sample Code
-#### The Basics
+
+
+## Usage
 ##### Importing the Library
 ```py
 # Before we begin, we obviously have to import scpscraper.
@@ -54,11 +50,11 @@ scpscraper.scrape_scps(0, 100)
 # Same as above, but only grabbing Keter-class SCPs
 scpscraper.scrape_scps(0, 100, tags=['keter'])
 
-# Grabbing 000-099 in a format that can be use
-```
+# Grabbing 000-099 in a format that can be used to train AI
+scpscraper.scrape_scps(0, 100, ai_dataset=True)
 
-#### Advanced Usage
-##### Copying results to your Google Drive automatically (in Google Colaboratory only)
+
+```
 
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -66,5 +62,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwNDc1NDQwNTAsODY3NDgzODM5XX0=
+eyJoaXN0b3J5IjpbLTE3NjYyOTY5NDEsODY3NDgzODM5XX0=
 -->
