@@ -48,8 +48,13 @@ print(content) # Outputs "<div id="page-content"> ... </div>"
 
 ##### Scraping HTML or information from *multiple* SCPs
 ```py
-# Grab info on SCPs 0-99
+# Grab info on SCPs 000-099
 scpscraper.scrape_scps(0, 100)
+
+# Same as above, but only grabbing Keter-class SCPs
+scpscraper.scrape_scps(0, 100, tags=['keter'])
+
+# Grabbing 000-099 in a format that can be use
 ```
 
 #### Advanced Usage
@@ -61,5 +66,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2NDI0NTM1LDg2NzQ4MzgzOV19
+eyJoaXN0b3J5IjpbLTEwNDc1NDQwNTAsODY3NDgzODM5XX0=
 -->
