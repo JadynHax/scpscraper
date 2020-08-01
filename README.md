@@ -43,8 +43,13 @@ scp = scpscraper.get_single_scp(3001)
 # Grab the page-content div specifically
 content = scp.find_all('div', id='page-content')
 
-print(content) # Outputs "<div id="page-content">
+print(content) # Outputs "<div id="page-content"> ... </div>"
 ```
+
+##### Scraping HTML or information from *multiple* SCPs
+
+#### Advanced Usage
+##### Copying results
 
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -52,5 +57,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMwNTMxMTQwNiw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbMTkzOTk5NzQxNCw4Njc0ODM4MzldfQ==
 -->
