@@ -4,17 +4,22 @@ A small Python library designed for scraping data from the SCP wiki. Made with A
 
 Below you will find installation instructions, examples of how to use this library, and the ways in which you can utilize it. I hope you find this as useful as I have!
 
+## Sample Code
 
+### Installation
+`scpscraper` can be installed via `pip install`. Here's the command I recommend using, so you consistently have the latest version.
+```
+pip3 install --upgrade scpscraper
+```
 
-
-## Usage
-##### Importing the Library
+### The Basics
+#### Importing the Library
 ```py
 # Before we begin, we obviously have to import scpscraper.
 import scpscraper
 ```
 
-##### Grabbing an SCP's Name
+#### Grabbing an SCP's Name
 ```py
 # Let's use 3001 (Red Reality) as an example.
 name = scpscraper.get_scp_name(3001)
@@ -22,7 +27,7 @@ name = scpscraper.get_scp_name(3001)
 print(name) # Outputs "Red Reality"
 ```
 
-##### Grabbing as many details as possible about an SCP
+#### Grabbing as many details as possible about an SCP
 ```py
 # Again using 3001 as an example
 info = scpscraper.get_scp(3001)
@@ -31,7 +36,9 @@ print(info) # Outputs a dictionary with the
 # name, object id, rating, page content by section, etc.
 ```
 
-##### Grabbing an SCP's `page-content` div HTML
+### The Fun Stuff
+#### Grabbing an SCP's `page-content` div HTML
+
 ```py
 # Once again, 3001 is the example
 scp = scpscraper.get_single_scp(3001)
@@ -42,7 +49,7 @@ content = scp.find_all('div', id='page-content')
 print(content) # Outputs "<div id="page-content"> ... </div>"
 ```
 
-##### Scraping HTML or information from *multiple* SCPs
+#### Scraping HTML or information from *multiple* SCPs
 ```py
 # Grab info on SCPs 000-099
 scpscraper.scrape_scps(0, 100)
@@ -62,5 +69,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3NjYyOTY5NDEsODY3NDgzODM5XX0=
+eyJoaXN0b3J5IjpbOTkxOTg5NTgwLDg2NzQ4MzgzOV19
 -->
