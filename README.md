@@ -47,9 +47,13 @@ print(content) # Outputs "<div id="page-content"> ... </div>"
 ```
 
 ##### Scraping HTML or information from *multiple* SCPs
+```py
+# Grab info on SCPs 0-99
+scpscraper.scrape_scps(0, 100)
+```
 
 #### Advanced Usage
-##### Copying results
+##### Copying results to your Google Drive automatically (in Google Colaboratory only)
 
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
@@ -57,5 +61,5 @@ Potential updates in the future to make scraping data from any website easy/viab
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTkzOTk5NzQxNCw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTE2NDI0NTM1LDg2NzQ4MzgzOV19
 -->
