@@ -27,7 +27,6 @@ print(name) # Outputs "Red Reality"
 ```
 
 ##### Grabbing as many details as possible about an SCP
-
 ```py
 # Again using 3001 as an example
 info = scpscraper.get_scp(3001)
@@ -36,11 +35,13 @@ print(info) # Outputs a dictionary with the
 # name, object id, rating, page content by section, etc.
 ```
 
+##### Grabbing an SCP's `page-content` div HTML
+
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
 
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODY3NDgzODM5XX0=
+eyJoaXN0b3J5IjpbMTU2MzQ4MDg3OCw4Njc0ODM4MzldfQ==
 -->
