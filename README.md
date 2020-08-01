@@ -77,12 +77,18 @@ Because of the `google.colab` module included in Google Colaboratory, we can do 
 scpscraper.gdrive.mount()
 ```
 
-#### Scrape SCP info/HTML and copy to your Google D
+#### Scrape SCP info/HTML and copy to your Google Drive afterwards
+```py
+# Requires your Google Drive to be mounted at the directory /content/drive/
+scpscraper.scrape_scps(0, 100, copy_to_drive=True)
+
+
+```
 ## Planned Updates
 Potential updates in the future to make scraping data from any website easy/viable, allowing for easy mass collection of data.
 
 ## Link to GitHub Repo
 https://github.com/JaonHax/scpscraper/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTc0NDgxMjIyMyw4Njc0ODM4MzldfQ==
+eyJoaXN0b3J5IjpbLTEzOTc4NTgwMDgsODY3NDgzODM5XX0=
 -->
