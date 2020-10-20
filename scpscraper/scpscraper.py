@@ -13,7 +13,7 @@ def get_single_scp(scp_id: str) -> BeautifulSoup:
     r = urllib.request.urlopen(url=f'http://scp-wiki.wikidot.com/scp-{scp_id}')
     
     # Return the organized content for parsing.
-    return BeautifulSoup(r, 'html.parser')
+    return BeautifulSoup(r, 'lxml')
   
   # Error handling.
   except Exception as e:
@@ -34,7 +34,7 @@ def _get_scp_name(scp_id: int) -> str:
     # Grab the HTML and parse as needed.
     r = urllib.request.urlopen(url=url)
     try:
-      soup = BeautifulSoup(r, 'html.parser')
+      soup = BeautifulSoup(r, 'lxml')
       content = soup.find('div', id='page-content')
       list_elements = content.find_all('li')
 
