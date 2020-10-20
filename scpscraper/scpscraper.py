@@ -10,7 +10,7 @@ def get_single_scp(scp_id: str) -> BeautifulSoup:
   """Returns HTML code for the `page-content` div of a given SCP."""
   try:
     # Grab the HTML code.
-    r = urllib.request.urlopen(url=f'http://www.scp-wiki.net/scp-{scp_id}')
+    r = urllib.request.urlopen(url=f'http://scp-wiki.wikidot.com/scp-{scp_id}')
     
     # Return the organized content for parsing.
     return BeautifulSoup(r, 'html.parser')
@@ -25,11 +25,11 @@ def _get_scp_name(scp_id: int) -> str:
   try:
     # Determine which series the SCP is in.
     if scp_id < 1000:
-      url = 'http://www.scp-wiki.net/scp-series'
+      url = 'http://scp-wiki.wikidot.com/scp-series'
     elif scp_id % 1000 == 0:
-      url = f'http://www.scp-wiki.net/scp-series-{int(scp_id/1000+1)}'
+      url = f'http://scp-wiki.wikidot.com/scp-series-{int(scp_id/1000+1)}'
     else:
-      url = f'http://www.scp-wiki.net/scp-series-{ceil(scp_id/1000, 0)}'
+      url = f'http://scp-wiki.wikidot.com/scp-series-{ceil(scp_id/1000, 0)}'
 
     # Grab the HTML and parse as needed.
     r = urllib.request.urlopen(url=url)
@@ -159,7 +159,7 @@ def parse_scp(soup: BeautifulSoup, scp_id: Union[str, int]) -> dict:
   tags = [tag.string for tag in tags_list if tag.string != '\n']
 
   # Get link to the discussion page.
-  discussion_link = 'http://www.scp-wiki.net' + soup.find('a', id='discuss-button')['href']
+  discussion_link = 'http://www.scpwiki.com' + soup.find('a', id='discuss-button')['href']
 
   return {
     'id': scp_id,
@@ -266,7 +266,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: 
       # Tag match checking code
       match = False
       
-      if tags != []:
+      if tags:
         for tag in tags:
           if tag in mylist["tags"]:
             match = True
@@ -282,7 +282,6 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: 
         # Put stuff in a better format for the AI, if we're making a dataset for one
         if ai_dataset:
           for k in keyslist:
-            mylist["content"][k] = mylist["content"][k].replace('\n', ' ')
             mylist["content"][k] = mylist["content"][k].replace(j, 'XXXX')
 
         try:
@@ -291,7 +290,7 @@ def scrape_scps(min_skip: int=0, max_skip: int=6000, tags: list=[], ai_dataset: 
             try:
               # Add <|endoftext|> token if it's a dataset for training AI.
               if ai_dataset:
-                out.write('Description: {}\n<|endoftext|>\n'.format(mylist["content"]["Description"].replace(j, 'XXXX')))
+                out.write('Description: {}\n<|endoftext|>'.format(mylist["content"]["Description"].replace(j, 'XXXX')))
               else:
                 out.write(f'Description: {mylist["content"]["Description"]}\n')
 
